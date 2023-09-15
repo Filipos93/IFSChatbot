@@ -57,26 +57,6 @@ def display_chat_history(chain):
             for i in range(len(st.session_state['generated'])):
                 message(st.session_state["past"][i], is_user=True, key=str(i) + '_user', avatar_style="thumbs")
                 message(st.session_state["generated"][i], key=str(i), avatar_style="fun-emoji")
-                
-class StopOnTokens(StoppingCriteria):
-    def __init__(self, tokens: list) -> None:
-        self.tokens = tokens
-    def __call__(self, input_ids: torch.LongTensor) -> bool:
-        for stop_ids in self.tokens:
-            if torch.eq(input_ids[0][-len(stop_ids):], stop_ids).all():
-                return True
-        return False
-
-def getStoppingTokens():
-    tokenizer = transformers.AutoTokenizer.from_pretrained(
-        "meta-llama/Llama-2-7b-chat-hf",
-        use_auth_token="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")
-
-    stop_list = ['\nHuman:', '\n```\n']
-
-    stop_token_ids = [tokenizer(x)['input_ids'] for x in stop_list]
-
-    return StoppingCriteriaList([StopOnTokens(stop_token_ids)])
 
 def create_conversational_chain(vector_store):
     load_dotenv()
@@ -92,7 +72,7 @@ def create_conversational_chain(vector_store):
         callbacks=[StreamingStdOutCallbackHandler()],
         model_kwargs = {"temperature": 0.01, "max_length" :500,"top_p":1},
         replicate_api_token="r8_co3XjbR2VQIXuMdRuK3EAnEzIGHeV8C2SBGMX",
-        stop=getStoppingTokens())
+        stop=['\nHuman:', '\n```\n'])
     
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
     
