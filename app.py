@@ -8,7 +8,6 @@ from langchain.memory import ConversationBufferMemory
 from langchain.document_loaders import PyPDFLoader
 from langchain.document_loaders import TextLoader
 from langchain.document_loaders import Docx2txtLoader
-from langchain.document_loaders import UnstructuredMarkdownLoader
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import os
@@ -112,7 +111,7 @@ def main():
     
     text = []
     
-    docData = UnstructuredMarkdownLoader("ifsdoc.md").load()
+    docData = TextLoader("ifsdoc.txt").load()
     
     text.extend(docData)
 

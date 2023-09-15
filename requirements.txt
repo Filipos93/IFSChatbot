@@ -1,5 +1,4 @@
 langchain
-unstructured
 torch
 accelerate
 sentence_transformers
