@@ -13,5 +13,5 @@ python-dotenv
 replicate
 docx2txt
 transformers
-unstructured
+unstructured == 0.5.6
 
