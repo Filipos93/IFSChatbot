@@ -39,7 +39,7 @@ def display_chat_history(chain):
 
     with container:
         with st.form(key='my_form', clear_on_submit=True):
-            user_input = st.text_input("Question:", placeholder="Ask about your Documents", key='input')
+            user_input = st.text_input("Question:", placeholder="Ask about IFS Cloud", key='input')
             submit_button = st.form_submit_button(label='Send')
 
         if submit_button and user_input:
@@ -111,21 +111,21 @@ def main():
                 text.extend(loader.load())
                 os.remove(temp_file_path)
 
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=20)
-    text_chunks = text_splitter.split_documents(text)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=20)
+        text_chunks = text_splitter.split_documents(text)
 
-    # Create embeddings
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2", 
-                                        model_kwargs={'device': 'cpu'})
+        # Create embeddings
+        embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2", 
+                                           model_kwargs={'device': 'cpu'})
 
-    # Create vector store
-    vector_store = FAISS.from_documents(text_chunks, embedding=embeddings)
+        # Create vector store
+        vector_store = FAISS.from_documents(text_chunks, embedding=embeddings)
 
-    # Create the chain object
-    chain = create_conversational_chain(vector_store)
+        # Create the chain object
+        chain = create_conversational_chain(vector_store)
 
-    
-    display_chat_history(chain)
+        
+        display_chat_history(chain)
 
 if __name__ == "__main__":
     main()
