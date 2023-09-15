@@ -1,5 +1,4 @@
 langchain
-torch
 accelerate
 sentence_transformers
 streamlit_chat
@@ -12,5 +11,4 @@ pypdf
 python-dotenv
 replicate
 docx2txt
-transformers
 
